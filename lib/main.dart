@@ -1,9 +1,10 @@
 import 'package:camera/camera.dart';
 import 'package:fitness_pose/loading.dart';
+import 'package:get/get.dart';
 // import 'package:fitness_pose/temp.dart';
 import 'Excercises/LoadExcercise.dart';
 import 'homepage.dart';
-import 'wellcome.dart';
+import 'editBMI.dart';
 import 'camera_ui.dart';
 import 'package:flutter/material.dart';
 
@@ -22,14 +23,14 @@ Future<void> main() async {
 class Route extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/excercises',
-      routes: {
-        '/loading': (context) => loading(),
-        '/bmi': (context) => editBMI(),
-        '/excercises': (context) => HomePage(),
-        '/individual': (context) => LoadExcercise()
-      },
+    return GetMaterialApp(
+      initialRoute: '/loading',
+      getPages: [
+        GetPage(name: '/loading', page: () => loading()),
+        GetPage(name: '/bmi', page: () => editBMI()),
+        GetPage(name: '/excercises', page: () => HomePage()),
+        GetPage(name: '/individual', page: () => LoadExcercise()),
+      ],
     );
   }
 }

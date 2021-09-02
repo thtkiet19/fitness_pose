@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'Animations/bmi_animation.dart';
 import 'suitable_Ex.dart';
@@ -15,15 +16,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    data['kg'] = 60;
-    data['meter'] = 1;
-    data['centi'] = 60;
-    data =
-        data.isEmpty ? ModalRoute.of(context)!.settings.arguments as Map : data;
+    print('got to homepage');
+    print(Get.arguments);
+    // data = data.isEmpty ? Get.arguments as Map : data;
+    data = {'meter': 1, 'centi': 60, 'kg': 55};
+    print('passed data');
     double bmi = data['kg'] /
         ((data['meter'] + data['centi'] / 100) *
             (data['meter'] + data['centi'] / 100));
-    double getbmi() => bmi;
     return Scaffold(
       appBar: AppBar(
           title: Text('BMI'),
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
                 icon: const Icon(Icons.edit),
                 tooltip: 'Edit BMI',
                 onPressed: () {
-                  Navigator.pushNamed(context, '/bmi');
+                  Get.toNamed('/bmi');
                 }),
           ]),
       body: Container(

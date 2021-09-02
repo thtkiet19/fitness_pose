@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class HeightInput extends StatefulWidget {
@@ -92,12 +93,17 @@ class _HeightInputState extends State<HeightInput> {
           ElevatedButton(
               onPressed: () {
                 print(widget.kg);
-                Navigator.pushReplacementNamed(context, '/excercises',
+                /*Navigator.pushReplacementNamed(context, '/excercises',
                     arguments: {
                       'meter': widget.meter,
                       'centi': widget.centi,
                       'kg': widget.kg
-                    });
+                    });*/
+                Get.toNamed('/excercises', arguments: {
+                  'meter': widget.meter,
+                  'centi': widget.centi,
+                  'kg': widget.kg
+                });
               },
               child: Icon(Icons.alt_route)),
         ],

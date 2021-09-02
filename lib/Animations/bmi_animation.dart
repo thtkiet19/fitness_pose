@@ -63,7 +63,7 @@ class _AnimatedImageState extends State<BmiAnimation>
     return Column(
       children: [
         Text(widget._bmiCharactor[_bmiIndex]),
-        Text('Your BMI = ${widget.bmi!.ceilToDouble()}'),
+        Text('Your BMI = ${widget.bmi!.toDouble()}'),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: StepProgressIndicator(
