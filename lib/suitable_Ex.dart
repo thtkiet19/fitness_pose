@@ -1,5 +1,9 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
+import 'Animations/videos.dart';
 
 class SuitableExcercises extends StatefulWidget {
   final double? bmi;
@@ -15,8 +19,13 @@ class _SuitableExcercisesState extends State<SuitableExcercises> {
     'Weight Training',
     'High Intensity Interval Training'
   ];
-  List<String> _individual = ['Jog', 'Weight', 'HIIT'];
 
+  List<String> _individual = ['Jog', 'Weight', 'HIIT'];
+  List<String> trailingAnimation = [
+    'https://ak.picdn.net/shutterstock/videos/1041284887/preview/stock-footage--d-rendering-a-running-shirtless-male-character-with-white-background.webm',
+    'https://ak.picdn.net/shutterstock/videos/1067267848/preview/stock-footage--d-animation-k-video-showing-bodybuilding-exercise-at-gym-muscular-man-doing-one-arm-dumbbell.webm',
+    'https://ak.picdn.net/shutterstock/videos/1065872560/preview/stock-footage-man-exercise-animation-d-model-on-white-background-in-blue-t-shirt-low-poly-style.webm'
+  ];
   @override
   Widget build(BuildContext context) {
     print('${widget.bmi}');
@@ -30,10 +39,13 @@ class _SuitableExcercisesState extends State<SuitableExcercises> {
           child: Card(
             child: ListTile(
               onTap: () {
-                Navigator.pushNamed(context, '/individual',
-                    arguments: {'type': _individual[index], 'bmi': widget.bmi});
+                Get.toNamed('/individual', arguments: {
+                  'type': _excercises[index],
+                  'bmi': widget.bmi,
+                  'video': trailingAnimation[index]
+                });
               },
-              title: Text(_excercises[index]),
+              title: Text(_individual[index]),
               /*leading: CircleAvatar(
                 backgroundImage:
                 AssetImage('assets/' + _locations[index] + '.png'),

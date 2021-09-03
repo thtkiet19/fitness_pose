@@ -3,6 +3,7 @@ import 'package:fitness_pose/loading.dart';
 import 'package:get/get.dart';
 // import 'package:fitness_pose/temp.dart';
 import 'Excercises/LoadExcercise.dart';
+import 'Excercises/Running/run_home.dart';
 import 'homepage.dart';
 import 'editBMI.dart';
 import 'camera_ui.dart';
@@ -28,8 +29,9 @@ class Route extends StatelessWidget {
       getPages: [
         GetPage(name: '/loading', page: () => loading()),
         GetPage(name: '/bmi', page: () => editBMI()),
-        GetPage(name: '/excercises', page: () => HomePage()),
+        GetPage(name: '/exercises', page: () => HomePage()),
         GetPage(name: '/individual', page: () => LoadExcercise()),
+        GetPage(name: '/running', page: () => RunningHomePage())
       ],
     );
   }

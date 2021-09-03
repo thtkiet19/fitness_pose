@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
+import 'Running/run_home.dart';
 
 class LoadExcercise extends StatefulWidget {
   const LoadExcercise({Key? key}) : super(key: key);
@@ -11,23 +14,26 @@ class LoadExcercise extends StatefulWidget {
 //TODO: load indiviual excercises
 class _LoadExcerciseState extends State<LoadExcercise> {
   Map data = {};
+
+  late VideoPlayerController _controller;
+  @override
+  void initState() {
+    super.initState();
+    data = data.isEmpty ? Get.arguments as Map : data;
+    if (data['type'] == "Jogging") {
+      Future.delayed(const Duration(milliseconds: 500),
+          () => Get.off(() => RunningHomePage()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    data =
-        data.isEmpty ? ModalRoute.of(context)!.settings.arguments as Map : data;
     return Scaffold(
-        appBar: AppBar(
-          title: Text(data['type']),
-          centerTitle: true,
-          backgroundColor: Colors.teal,
-        ),
         body: Center(
-            child: SizedBox(
-                height: 200,
-                width: 200,
-                child: LiquidCircularProgressIndicator(
-                  center: Text('${data['bmi']}'),
-                  value: data['bmi'] / 45,
-                ))));
+      child: SpinKitCubeGrid(
+        color: Colors.blue[300],
+        size: 100.0,
+      ),
+    ));
   }
 }

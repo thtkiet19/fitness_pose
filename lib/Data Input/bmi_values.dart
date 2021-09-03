@@ -99,7 +99,7 @@ class _HeightInputState extends State<HeightInput> {
                       'centi': widget.centi,
                       'kg': widget.kg
                     });*/
-                Get.toNamed('/excercises', arguments: {
+                Get.offAllNamed('/exercises', arguments: {
                   'meter': widget.meter,
                   'centi': widget.centi,
                   'kg': widget.kg

@@ -1,10 +1,13 @@
 import 'package:fitness_pose/Animations/arrow_indicator.dart';
+import 'package:fitness_pose/Animations/rive_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:video_player/video_player.dart';
+import 'videos.dart';
 
 // import 'arrow_indicator.dart';
 
@@ -62,8 +65,19 @@ class _AnimatedImageState extends State<BmiAnimation>
 
     return Column(
       children: [
+        SizedBox(
+          width: 640,
+          height: 200,
+          child: BodyAnimation(),
+          /*VideoItem(
+            videoPlayerController: VideoPlayerController.network(
+                'https://ak.picdn.net/shutterstock/videos/1041284887/preview/stock-footage--d-rendering-a-running-shirtless-male-character-with-white-background.webm'),
+            looping: true,
+          ),*/
+        ),
         Text(widget._bmiCharactor[_bmiIndex]),
-        Text('Your BMI = ${widget.bmi!.toDouble()}'),
+        //TODO: percise calculate bmi
+        Text('Your BMI = ${(widget.bmi! * 2).floorToDouble() / 2}'),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: StepProgressIndicator(

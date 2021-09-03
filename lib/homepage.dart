@@ -17,9 +17,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     print('got to homepage');
-    print(Get.arguments);
-    // data = data.isEmpty ? Get.arguments as Map : data;
-    data = {'meter': 1, 'centi': 60, 'kg': 55};
+    //print(Get.arguments);
+    data = data.isEmpty ? Get.arguments : data;
+    // data = data.isEmpty ? {'meter': 1, 'centi': 60, 'kg': 55} : data;
+
+    // data = {'meter': 1, 'centi': 60, 'kg': 55};
     print('passed data');
     double bmi = data['kg'] /
         ((data['meter'] + data['centi'] / 100) *
@@ -34,13 +36,14 @@ class _HomePageState extends State<HomePage> {
                 icon: const Icon(Icons.edit),
                 tooltip: 'Edit BMI',
                 onPressed: () {
+                  print('Edit BMI');
                   Get.toNamed('/bmi');
                 }),
           ]),
       body: Container(
         color: Colors.blueGrey,
         child: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             BmiAnimation(bmi: bmi),
             SizedBox(
               height: 15,
