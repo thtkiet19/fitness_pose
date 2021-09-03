@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
+import '../../DB/db.dart';
+import 'bmi.dart';
 
 class HeightInput extends StatefulWidget {
   HeightInput({Key? key, int? meter, int? centi, int? kg}) : super(key: key);
@@ -91,14 +94,17 @@ class _HeightInputState extends State<HeightInput> {
             ],
           ),
           ElevatedButton(
-              onPressed: () {
-                print(widget.kg);
-                /*Navigator.pushReplacementNamed(context, '/excercises',
-                    arguments: {
-                      'meter': widget.meter,
-                      'centi': widget.centi,
-                      'kg': widget.kg
-                    });*/
+              onPressed: () async {
+                DB.insertBmi(
+                    Bmi_val.table,
+                    Bmi_val(
+                        date: DateFormat.yMMMMd('en_US').format(DateTime.now()),
+                        meter: widget.meter,
+                        centi: widget.centi,
+                        kg: widget.kg));
+                List<Map<String, dynamic>> _results =
+                    await DB.query(Bmi_val.table);
+                print('$_results');
                 Get.offAllNamed('/exercises', arguments: {
                   'meter': widget.meter,
                   'centi': widget.centi,

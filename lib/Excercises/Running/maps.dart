@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -6,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'entry.dart';
+import 'package:get/get.dart';
 
 class MapPage extends StatefulWidget {
   @override
@@ -16,7 +18,10 @@ class _MapPageState extends State<MapPage> {
   final Set<Polyline> polyline = {};
   Location _location = Location();
   late GoogleMapController _mapController;
-  LatLng _center = const LatLng(0, 0);
+  bool started = false;
+
+  // LatLng _center = const LatLng(15.394813, 108.811698);
+  LatLng _center = LatLng(Get.arguments['lat'], Get.arguments['long']);
   List<LatLng> route = [];
 
   double _dist = 0;
@@ -26,37 +31,46 @@ class _MapPageState extends State<MapPage> {
   double _speed = 0;
   double _avgSpeed = 0;
   int _speedCounter = 0;
-
+  String mapJson = Get.arguments['MapJson'];
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
 
   @override
   void initState() {
     super.initState();
-    _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+    print('$mapJson');
   }
 
   @override
   void dispose() async {
     super.dispose();
-    await _stopWatchTimer.dispose(); // Need to call dispose function.
+    await _stopWatchTimer.dispose();
   }
 
-  void _onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
-    double appendDist;
+  Future<String> getJsonFile(String path) async {
+    return await rootBundle.loadString(path);
+  }
 
-    _location.onLocationChanged.listen((event) {
-      LatLng loc = LatLng(event.altitude!, event.longitude!);
+  Future<void> _onMapCreated(GoogleMapController controller) async {
+    _mapController = controller;
+    print(getJsonFile("assets/MapJson/$mapJson.json"));
+    String json = await getJsonFile("assets/MapJson/$mapJson.json");
+    // print('JSON PRINTING \n $json');
+    _mapController.setMapStyle(json);
+    double appendDist;
+    _location.onLocationChanged.listen((LocationData currentLocation) {
+      LatLng loc =
+          LatLng(currentLocation.latitude!, currentLocation.longitude!);
+      print("$currentLocation");
       _mapController.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(target: loc, zoom: 15)));
+          CameraPosition(target: loc, zoom: 17)));
 
       if (route.length > 0) {
         appendDist = Geolocator.distanceBetween(route.last.latitude,
             route.last.longitude, loc.latitude, loc.longitude);
-        _dist = _dist + appendDist;
         int timeDuration = (_time - _lastTime);
+        if (timeDuration != 0) _dist = _dist + appendDist;
 
-        if (_lastTime != null && timeDuration != 0) {
+        if (timeDuration != 0) {
           _speed = (appendDist / (timeDuration / 100)) * 3.6;
           if (_speed != 0) {
             _avgSpeed = _avgSpeed + _speed;
@@ -66,15 +80,15 @@ class _MapPageState extends State<MapPage> {
       }
       _lastTime = _time;
       route.add(loc);
-
-      polyline.add(Polyline(
-          polylineId: PolylineId(event.toString()),
-          visible: true,
-          points: route,
-          width: 5,
-          startCap: Cap.roundCap,
-          endCap: Cap.roundCap,
-          color: Colors.deepOrange));
+      if (started == true)
+        polyline.add(Polyline(
+            polylineId: PolylineId(currentLocation.toString()),
+            visible: true,
+            points: route,
+            width: 5,
+            startCap: Cap.roundCap,
+            endCap: Cap.roundCap,
+            color: Colors.deepOrange));
 
       setState(() {});
     });
@@ -90,7 +104,7 @@ class _MapPageState extends State<MapPage> {
         zoomControlsEnabled: false,
         onMapCreated: _onMapCreated,
         myLocationEnabled: true,
-        initialCameraPosition: CameraPosition(target: _center, zoom: 11),
+        initialCameraPosition: CameraPosition(target: _center, zoom: 15),
       )),
       Align(
           alignment: Alignment.bottomCenter,
@@ -152,22 +166,51 @@ class _MapPageState extends State<MapPage> {
                   ],
                 ),
                 Divider(),
-                IconButton(
-                  icon: Icon(
-                    Icons.stop_circle_outlined,
-                    size: 50,
-                    color: Colors.redAccent,
-                  ),
-                  padding: EdgeInsets.all(0),
-                  onPressed: () async {
-                    Entry en = Entry(
-                        date: DateFormat.yMMMMd('en_US').format(DateTime.now()),
-                        duration: _displayTime,
-                        speed:
-                            _speedCounter == 0 ? 0 : _avgSpeed / _speedCounter,
-                        distance: _dist);
-                    Navigator.pop(context, en);
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.play_circle_outline_rounded,
+                        size: 50,
+                        color: Colors.teal,
+                      ),
+                      padding: EdgeInsets.all(0),
+                      onPressed: () {
+                        _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                        started = true;
+                      },
+                    ),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.stop_circle_outlined,
+                        size: 50,
+                        color: Colors.redAccent,
+                      ),
+                      padding: EdgeInsets.all(0),
+                      onPressed: () async {
+                        if (started == true) {
+                          print('run');
+                          Entry en = Entry(
+                              date: DateFormat.yMMMMd('en_US')
+                                  .format(DateTime.now()),
+                              duration: _displayTime,
+                              speed: _speedCounter == 0
+                                  ? 0
+                                  : _avgSpeed / _speedCounter,
+                              distance: _dist);
+                          Navigator.pop(context, en);
+                        } else {
+                          // Get.offNamed('\running');
+                          Navigator.pop(context);
+                          print('did not run');
+                        }
+                      },
+                    ),
+                  ],
                 )
               ],
             ),

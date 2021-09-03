@@ -1,9 +1,6 @@
-import 'package:chewie/chewie.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
-import 'Animations/videos.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class SuitableExcercises extends StatefulWidget {
   final double? bmi;
@@ -38,21 +35,25 @@ class _SuitableExcercisesState extends State<SuitableExcercises> {
           padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 3),
           child: Card(
             child: ListTile(
-              onTap: () {
-                Get.toNamed('/individual', arguments: {
-                  'type': _excercises[index],
-                  'bmi': widget.bmi,
-                  'video': trailingAnimation[index]
-                });
-              },
-              title: Text(_individual[index]),
-              /*leading: CircleAvatar(
+                onTap: () {
+                  Get.toNamed('/individual', arguments: {
+                    'type': _excercises[index],
+                    'bmi': widget.bmi,
+                    'video': trailingAnimation[index]
+                  });
+                },
+                title: Text(_individual[index]),
+                /*leading: CircleAvatar(
                 backgroundImage:
                 AssetImage('assets/' + _locations[index] + '.png'),
               ),*/
-              hoverColor: Colors.grey[100],
-              focusColor: Colors.lightBlue,
-            ),
+                hoverColor: Colors.grey[100],
+                focusColor: Colors.lightBlue,
+                trailing: CircularPercentIndicator(
+                  radius: 40,
+                  percent: 0.55,
+                  progressColor: Colors.cyan,
+                )),
             elevation: 3,
           ),
         );
