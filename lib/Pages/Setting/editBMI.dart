@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Data Input/bmi_values.dart';
+import '../../Data Input/bmi_values.dart';
 
 class editBMI extends StatefulWidget {
   const editBMI({Key? key}) : super(key: key);

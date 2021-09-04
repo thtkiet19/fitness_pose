@@ -105,11 +105,7 @@ class _HeightInputState extends State<HeightInput> {
                 List<Map<String, dynamic>> _results =
                     await DB.query(Bmi_val.table);
                 print('$_results');
-                Get.offAllNamed('/exercises', arguments: {
-                  'meter': widget.meter,
-                  'centi': widget.centi,
-                  'kg': widget.kg
-                });
+                Get.offAllNamed('/loading');
               },
               child: Icon(Icons.alt_route)),
         ],

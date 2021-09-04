@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:rive/rive.dart';
-import '../../DB/db.dart';
+import 'package:fitness_pose/DB/db.dart';
 import 'entry.dart';
 import 'maps.dart';
 import 'entry_card.dart';
@@ -21,18 +21,12 @@ class _RunningHomePageState extends State<RunningHomePage> {
   String Mapjson = 'standard';
   Location _location = Location();
   late LocationData _locationData;
+  late String dropdownvalue = 'standard';
 
   getLocdata() async {
     print('get loc data');
     _locationData = await _location.getLocation();
     print('center $_locationData');
-  }
-
-  void initState() {
-    super.initState();
-    getLocdata();
-
-    DB.init().then((value) => _fetchEntries());
   }
 
   void _fetchEntries() async {
@@ -44,6 +38,11 @@ class _RunningHomePageState extends State<RunningHomePage> {
       _cards.add(EntryCard(entry: _data[_data.length - 1 - index]));
     }
     // _data.forEach((element) => _cards.add(EntryCard(entry: element)));
+    List<Map<String, dynamic>> _map = await DB.query('system_pref');
+    dropdownvalue = _map[0]['mapJson'];
+    print(' DROPDOWN $_map');
+    print(dropdownvalue);
+    Mapjson = dropdownvalue;
     setState(() {});
   }
 
@@ -52,12 +51,53 @@ class _RunningHomePageState extends State<RunningHomePage> {
     _fetchEntries();
   }
 
+  void initState() {
+    super.initState();
+    getLocdata();
+
+    DB.init().then((value) => _fetchEntries());
+  }
+
+  List<String> mapStyle = ['standard', 'retro', 'dark', 'night'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
         title: Text("Running"),
+        actions: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('Map style: '),
+              DropdownButton(
+                value: dropdownvalue,
+                dropdownColor: Colors.teal,
+                icon: Icon(Icons.keyboard_arrow_down),
+                items: mapStyle.map((String items) {
+                  return DropdownMenuItem(
+                      value: items,
+                      child: Text(
+                        items,
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ));
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownvalue = newValue!;
+                    Mapjson = newValue;
+                    DB.deleteAll('system_pref');
+                    DB.insertMapstyle('system_pref', Mapjson);
+                  });
+                },
+              ),
+              SizedBox(
+                width: 10,
+              ),
+            ],
+          )
+        ],
       ),
       body: ListView(
         reverse: false,
@@ -86,36 +126,7 @@ class _RunningHomePageState extends State<RunningHomePage> {
                       },
                       title: Text('Delete all running history'),
                       trailing: Icon(Icons.delete_sharp))),
-              Card(
-                  child: Column(
-                children: [
-                  ListTile(
-                      onTap: () {
-                        Mapjson = 'standard';
-                      },
-                      title: Text('Change map view to standard'),
-                      trailing: Icon(Icons.map_sharp)),
-                  ListTile(
-                      onTap: () {
-                        Mapjson = 'retro';
-                        print('$Mapjson');
-                      },
-                      title: Text('Change map view to classic'),
-                      trailing: Icon(Icons.map_sharp)),
-                  ListTile(
-                      onTap: () {
-                        Mapjson = 'dark';
-                      },
-                      title: Text('Change map view to dark'),
-                      trailing: Icon(Icons.map_sharp)),
-                  ListTile(
-                      onTap: () {
-                        Mapjson = 'night';
-                      },
-                      title: Text('Change map view to night'),
-                      trailing: Icon(Icons.map_sharp)),
-                ],
-              )),
+
             ],
           ),
         ),

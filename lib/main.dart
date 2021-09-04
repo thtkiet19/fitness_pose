@@ -1,11 +1,12 @@
 import 'package:camera/camera.dart';
-import 'package:fitness_pose/loading.dart';
+import 'package:fitness_pose/Pages/loading.dart';
+import 'package:fitness_pose/Pages/Setting/setting.dart';
 import 'package:get/get.dart';
 // import 'package:fitness_pose/temp.dart';
-import 'Excercises/LoadExcercise.dart';
-import 'Excercises/Running/run_home.dart';
-import 'homepage.dart';
-import 'editBMI.dart';
+import '../Pages/Excercises/LoadExcercise.dart';
+import '../Pages/Excercises/Running/run_home.dart';
+import 'Pages/homepage.dart';
+import 'Pages/Setting/editBMI.dart';
 import 'camera_ui.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +29,7 @@ class Route extends StatelessWidget {
       initialRoute: '/loading',
       getPages: [
         GetPage(name: '/loading', page: () => loading()),
+        GetPage(name: '/setting', page: () => setting()),
         GetPage(name: '/bmi', page: () => editBMI()),
         GetPage(name: '/exercises', page: () => HomePage()),
         GetPage(name: '/individual', page: () => LoadExcercise()),

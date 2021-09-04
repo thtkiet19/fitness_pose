@@ -1,9 +1,9 @@
 import 'package:fitness_pose/Data%20Input/bmi.dart';
-import 'package:fitness_pose/homepage.dart';
+import 'package:fitness_pose/Pages/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import '../../DB/db.dart';
+import '../../../DB/db.dart';
 
 class loading extends StatefulWidget {
   const loading({Key? key}) : super(key: key);
@@ -16,6 +16,8 @@ class _loadingState extends State<loading> {
   late List<Bmi_val> _data;
 
   void innitbmi() async {
+    await DB.init();
+    print('init');
     List<Map<String, dynamic>> _results = await DB.query(Bmi_val.table);
     print('$_results');
     _data = _results.map((item) => Bmi_val.fromMap(item)).toList();
@@ -26,9 +28,7 @@ class _loadingState extends State<loading> {
   @override
   void initState() {
     super.initState();
-    DB.init();
-    print('init');
-    Future.delayed(const Duration(milliseconds: 500), () => innitbmi());
+    Future.delayed(const Duration(milliseconds: 100), () => innitbmi());
   }
 
   @override

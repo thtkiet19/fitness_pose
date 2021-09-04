@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
-import '../Excercises/Running/entry.dart';
+import '../Pages/Excercises/Running/entry.dart';
 import '../Data Input/bmi.dart';
 
 abstract class DB {
@@ -27,13 +27,27 @@ abstract class DB {
         duration STRING, 
         speed REAL, 
         distance REAL
-      )
+      );
       CREATE TABLE bmi(
       id INTEGER PRIMARY KEY NOT NULL,
       date STRING,
       meter INTEGER,
       centi INTEGER,
-      kg INTEGER)
+      kg INTEGER);
+      CREATE TABLE system_pref(
+      mapJson STRING PRIMARY KEY NOT NULL);
+      CREATE TABLE progress(
+      id INTEGER PRIMARY KEY NOT NULL,
+      date STRING,
+      jogging REAL,
+      weigh REAL,
+      hiit REAL);
+      CREATE TABLE progress(
+      id INTEGER PRIMARY KEY NOT NULL,
+      date STRING,
+      jogging_goal REAL,
+      weigh_goal REAL,
+      hiit_goal REAL)
     ''');
   }
 
@@ -43,12 +57,15 @@ abstract class DB {
       await _db!.insert(table, item.toMap());
   static Future<int> insertBmi(String table, Bmi_val item) async =>
       await _db!.insert(table, item.toMap());
-  static Future deleteAll(String database) async =>
-      await _db!.rawDelete('DELETE FROM ${database}');
-  /*static Future Cttb() async => await _db!.execute('''CREATE TABLE bmi(
+  static Future<int> insertMapstyle(String table, String style) async =>
+      await _db!.insert(table, {'Mapjson': style});
+  static Future deleteAll(String table) async =>
+      await _db!.rawDelete('DELETE FROM ${table}');
+  static Future Cttb() async => await _db!.execute('''
+      CREATE TABLE progress(
       id INTEGER PRIMARY KEY NOT NULL,
       date STRING,
-      meter INTEGER,
-      centi INTEGER,
-      kg INTEGER)''');*/
+      jogging_goal REAL,
+      weigh_goal REAL,
+      hiit_goal REAL)''');
 }

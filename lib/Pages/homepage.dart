@@ -2,8 +2,8 @@ import 'package:fitness_pose/Data%20Input/bmi.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'Animations/bmi_animation.dart';
-import 'Excercises/suitable_Ex.dart';
+import '../Animations/bmi_animation.dart';
+import '../../Pages/Excercises/suitable_Ex.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,16 +33,15 @@ class _HomePageState extends State<HomePage> {
     String date = data.date;
     return Scaffold(
       appBar: AppBar(
-          title: Text('BMI'),
+          title: Text('iWorkOut'),
           centerTitle: true,
           backgroundColor: Colors.teal,
           actions: <Widget>[
             IconButton(
-                icon: const Icon(Icons.edit),
+                icon: const Icon(Icons.settings),
                 tooltip: 'Edit BMI',
                 onPressed: () {
-                  print('Edit BMI');
-                  Get.toNamed('/bmi');
+                  Get.toNamed('/setting');
                 }),
           ]),
       body: Container(
