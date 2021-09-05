@@ -19,7 +19,10 @@ class _load_bmiState extends State<load_bmi> {
     await DB.init();
 
     List<Map<String, dynamic>> _bmi = await DB.query('bmi');
-    bmi_val = _bmi.map((item) => Bmi_val.fromMap(item)).toList().last;
+    if (_bmi.isBlank == true) {
+      bmi_val = Bmi_val(id: 0, date: '', meter: 1, centi: 60, kg: 60);
+    } else
+      bmi_val = _bmi.map((item) => Bmi_val.fromMap(item)).toList().last;
     Get.off(() => editBMI(bmi: bmi_val));
   }
 

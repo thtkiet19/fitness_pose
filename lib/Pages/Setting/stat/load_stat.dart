@@ -25,7 +25,11 @@ class _loading_statState extends State<loading_stat> {
     List<Map<String, dynamic>> _pro =
         await DB.selectWeek('progress', 'date DESC');
     _progress = _pro.map((item) => Progress_val.fromMap(item)).toList();
-
+    if (_pro.isBlank == true) {
+      Progress_val temp = Progress_val(date: '', jogging: 0, weigh: 0, hiit: 0);
+      _progress = [temp];
+      print('$_pro');
+    }
     List<Map<String, dynamic>> _weekbmi = await DB.selectWeek('bmi', 'id DESC');
     _bmi = _weekbmi.map((item) => Bmi_val.fromMap(item)).toList();
 

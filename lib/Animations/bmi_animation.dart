@@ -19,10 +19,7 @@ class BmiAnimation extends StatefulWidget {
   _AnimatedImageState createState() => _AnimatedImageState();
 }
 
-class _AnimatedImageState extends State<BmiAnimation>
-    {
-
-
+class _AnimatedImageState extends State<BmiAnimation> {
   @override
   Widget build(BuildContext context) {
     double percent = ((widget.bmi! - 13) / 37);
@@ -47,10 +44,8 @@ class _AnimatedImageState extends State<BmiAnimation>
           width: 640,
           height: 200,
           child: BodyAnimation(),
-
         ),
         Text(widget._bmiCharactor[_bmiIndex]),
-        //TODO: percise calculate bmi
         Text('Your BMI = ${(widget.bmi! * 2).floorToDouble() / 2}'),
         Padding(
           padding: const EdgeInsets.all(8.0),

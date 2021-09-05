@@ -1,5 +1,6 @@
 import 'package:fitness_pose/Structures/bmi.dart';
 import 'package:fitness_pose/Pages/homepage.dart';
+import 'package:fitness_pose/Structures/entry.dart';
 import 'package:fitness_pose/Structures/goal.dart';
 import 'package:fitness_pose/Structures/progress.dart';
 import 'package:flutter/material.dart';
@@ -30,14 +31,18 @@ class _loadingState extends State<loading> {
     List<Map<String, dynamic>> _progress = await DB.query('progress');
     if (_progress.isBlank == true) {
       DB.innnitProgressDate(today);
-      List<Map<String, dynamic>> _progress = await DB.query('progress');
+      _progress = await DB.query('progress');
     }
 
     if (today != _progress.last['date']) {
       DB.innnitProgressDate(today);
     }
-    DB.loadProgress(today);
-    _progress = await DB.query('progress');
+    List<Map<String, dynamic>> _results = await DB.query(Entry.table);
+    List<Entry> _temp = _results.map((item) => Entry.fromMap(item)).toList();
+    if (_temp.isBlank == false) {
+      DB.loadProgress(today);
+      _progress = await DB.query('progress');
+    }
     print(_progress);
     // _progress.map((item) => Bmi_val.fromMap(item)).toList();
     print('$_results_bmi');
@@ -47,7 +52,7 @@ class _loadingState extends State<loading> {
           'goals',
           Goal_val(
               date: today, jogging_goal: 2000, weigh_goal: 10, hiit_goal: 5));
-      List<Map<String, dynamic>> _goals = await DB.query('goals');
+      _goals = await DB.query('goals');
     } else {
       goal_val = _goals.map((item) => Goal_val.fromMap(item)).toList().last;
       print('${goal_val.jogging_goal}');

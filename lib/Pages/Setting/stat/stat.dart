@@ -1,3 +1,4 @@
+import 'package:fitness_pose/Pages/Setting/stat/stat_height.dart';
 import 'package:fitness_pose/Pages/Setting/stat/stat_weight.dart';
 import 'package:fitness_pose/Pages/Setting/stat/stat_running.dart';
 import 'package:fitness_pose/Structures/bmi.dart';
@@ -43,7 +44,8 @@ class _statState extends State<stat> {
                   progress: widget.progress,
                   goal_val: widget.goal_val,
                 ),
-                stat_weight(bmi: widget.bmi)
+                stat_weight(bmi: widget.bmi),
+                stat_height(bmi: widget.bmi)
               ],
             ),
           ),

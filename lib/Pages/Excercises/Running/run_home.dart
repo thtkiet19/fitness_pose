@@ -139,14 +139,6 @@ class _RunningHomePageState extends State<RunningHomePage> {
                       },
                       title: Text('Delete all running history'),
                       trailing: Icon(Icons.delete_sharp))),
-              Card(
-                child: ListTile(
-                    onTap: () {
-                      DB.Cttb();
-                    },
-                    title: Text('Edit yours goals'),
-                    trailing: Icon(Icons.style)),
-              ),
             ],
           ),
         ),

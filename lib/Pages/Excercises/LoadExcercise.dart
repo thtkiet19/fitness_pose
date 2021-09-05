@@ -11,7 +11,6 @@ class LoadExcercise extends StatefulWidget {
   _LoadExcerciseState createState() => _LoadExcerciseState();
 }
 
-//TODO: load indiviual excercises
 class _LoadExcerciseState extends State<LoadExcercise> {
   Map data = {};
 
