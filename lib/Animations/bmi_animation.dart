@@ -2,14 +2,7 @@ import 'package:fitness_pose/Animations/arrow_indicator.dart';
 import 'package:fitness_pose/Animations/rive_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:video_player/video_player.dart';
-import 'videos.dart';
-
-// import 'arrow_indicator.dart';
 
 class BmiAnimation extends StatefulWidget {
   final double? bmi;
@@ -27,29 +20,14 @@ class BmiAnimation extends StatefulWidget {
 }
 
 class _AnimatedImageState extends State<BmiAnimation>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(seconds: 3),
-  )..repeat(reverse: true);
+    {
 
-  late final Animation<Offset> _animation = Tween<Offset>(
-    begin: Offset.zero,
-    end: Offset(0.0, 0.08),
-  ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     double percent = ((widget.bmi! - 13) / 37);
     percent = (percent > 1) ? percent = 1 : percent = percent;
     int _bmiIndex = 0;
-    double _bmi = widget.bmi!;
     if (widget.bmi! > 40)
       _bmiIndex = 5;
     else if (widget.bmi! > 35)
@@ -69,11 +47,7 @@ class _AnimatedImageState extends State<BmiAnimation>
           width: 640,
           height: 200,
           child: BodyAnimation(),
-          /*VideoItem(
-            videoPlayerController: VideoPlayerController.network(
-                'https://ak.picdn.net/shutterstock/videos/1041284887/preview/stock-footage--d-rendering-a-running-shirtless-male-character-with-white-background.webm'),
-            looping: true,
-          ),*/
+
         ),
         Text(widget._bmiCharactor[_bmiIndex]),
         //TODO: percise calculate bmi
@@ -98,14 +72,6 @@ class _AnimatedImageState extends State<BmiAnimation>
             ),
           ),
         ),
-        /* Padding(
-            padding: const EdgeInsets.fromLTRB(8, 1, 8, 1),
-            child: StepProgressIndicator(
-              totalSteps: 37,
-              currentStep: (widget.bmi!.toInt() - 13),
-              selectedColor: Colors.pink,
-              unselectedColor: Colors.amber,
-            )),*/
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 1, 0, 1),
           child: ArrowIndicator(

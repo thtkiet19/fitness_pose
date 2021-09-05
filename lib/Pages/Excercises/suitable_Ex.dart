@@ -1,3 +1,4 @@
+import 'package:fitness_pose/Structures/goal.dart';
 import 'package:fitness_pose/Structures/progress.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,8 +7,10 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 class SuitableExcercises extends StatefulWidget {
   final double? bmi;
   final Progress_val? progress_val;
+  final Goal_val goal_val;
 
-  const SuitableExcercises({Key? key, double? this.bmi, this.progress_val})
+  const SuitableExcercises(
+      {Key? key, double? this.bmi, this.progress_val, required this.goal_val})
       : super(key: key);
 
   @override
@@ -51,6 +54,11 @@ class _SuitableExcercisesState extends State<SuitableExcercises> {
       hiit = widget.progress_val!.hiit!.toInt();
 
     List<int> progress = [jogging, weigh, hiit];
+    List<int> goal_val = [
+      widget.goal_val.jogging_goal!.toInt(),
+      widget.goal_val.weigh_goal!.toInt(),
+      widget.goal_val.hiit_goal!.toInt()
+    ];
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
@@ -83,7 +91,7 @@ class _SuitableExcercisesState extends State<SuitableExcercises> {
                         animation: true,
                         lineWidth: 6,
                         radius: 40,
-                        percent: percent(progress[index], 2000),
+                        percent: percent(progress[index], goal_val[index]),
                         progressColor: Colors.cyan,
                       ),
                     ],

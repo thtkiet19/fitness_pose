@@ -1,11 +1,10 @@
 import 'package:fitness_pose/Pages/Setting/stat/stat.dart';
 import 'package:fitness_pose/Structures/bmi.dart';
-import 'package:fitness_pose/Pages/homepage.dart';
+import 'package:fitness_pose/Structures/goal.dart';
 import 'package:fitness_pose/Structures/progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import '../../../DB/db.dart';
 
 class loading_stat extends StatefulWidget {
@@ -17,15 +16,25 @@ class loading_stat extends StatefulWidget {
 
 class _loading_statState extends State<loading_stat> {
   late final List<Progress_val> _progress;
+  late final List<Bmi_val> _bmi;
+  late Goal_val goal_val;
 
   Future<void> innitdb() async {
     await DB.init();
     print('init in stat');
-    //get bmi values from data base
-    List<Map<String, dynamic>> _pro = await DB.selectWeekRun();
+    List<Map<String, dynamic>> _pro =
+        await DB.selectWeek('progress', 'date DESC');
     _progress = _pro.map((item) => Progress_val.fromMap(item)).toList();
+
+    List<Map<String, dynamic>> _weekbmi = await DB.selectWeek('bmi', 'id DESC');
+    _bmi = _weekbmi.map((item) => Bmi_val.fromMap(item)).toList();
+
+    List<Map<String, dynamic>> _goals = await DB.query('goals');
+    goal_val = _goals.map((item) => Goal_val.fromMap(item)).toList().last;
     Get.off(() => stat(
           progress: _progress,
+          goal_val: goal_val,
+          bmi: _bmi,
         ));
   }
 

@@ -1,5 +1,6 @@
 import 'package:fitness_pose/Structures/bmi.dart';
 import 'package:fitness_pose/Pages/homepage.dart';
+import 'package:fitness_pose/Structures/goal.dart';
 import 'package:fitness_pose/Structures/progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -17,8 +18,9 @@ class loading extends StatefulWidget {
 class _loadingState extends State<loading> {
   late List<Bmi_val> _data;
   late List<Progress_val> _pro;
+  late Goal_val goal_val;
 
-  void innitbmi() async {
+  void innitdata() async {
     await DB.init();
     print('init');
 
@@ -39,7 +41,17 @@ class _loadingState extends State<loading> {
     print(_progress);
     // _progress.map((item) => Bmi_val.fromMap(item)).toList();
     print('$_results_bmi');
-
+    List<Map<String, dynamic>> _goals = await DB.query('goals');
+    if (_goals.isBlank == true) {
+      DB.insertGoal(
+          'goals',
+          Goal_val(
+              date: today, jogging_goal: 2000, weigh_goal: 10, hiit_goal: 5));
+      List<Map<String, dynamic>> _goals = await DB.query('goals');
+    } else {
+      goal_val = _goals.map((item) => Goal_val.fromMap(item)).toList().last;
+      print('${goal_val.jogging_goal}');
+    }
     //check if there are any bmi results yet
     if (_results_bmi.isBlank == true) {
       Get.offNamed('/bmi');
@@ -47,15 +59,18 @@ class _loadingState extends State<loading> {
       _data = _results_bmi.map((item) => Bmi_val.fromMap(item)).toList();
       _pro = _progress.map((item) => Progress_val.fromMap(item)).toList();
       Bmi_val init = _data[_data.length - 1];
-      Get.off(() => HomePage(),
-          arguments: {'bmi': init, 'progress': _pro[_pro.length - 1]});
+      Get.off(() => HomePage(), arguments: {
+        'bmi': init,
+        'progress': _pro[_pro.length - 1],
+        'goal': goal_val
+      });
     }
   }
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 500), () => innitbmi());
+    Future.delayed(const Duration(milliseconds: 500), () => innitdata());
   }
 
   @override

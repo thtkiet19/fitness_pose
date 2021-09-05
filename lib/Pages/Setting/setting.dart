@@ -1,6 +1,6 @@
-import 'package:fitness_pose/Pages/Setting/goals.dart';
+import 'package:fitness_pose/Pages/Setting/edit_bmi/loadBMI.dart';
+import 'package:fitness_pose/Pages/Setting/edit_goal/load_goal.dart';
 import 'package:fitness_pose/Pages/Setting/stat/load_stat.dart';
-import 'package:fitness_pose/Pages/Setting/stat/stat.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +19,7 @@ class setting extends StatelessWidget {
           Card(
             child: ListTile(
                 onTap: () {
-                  Get.toNamed('/bmi');
+                  Get.to(() => load_bmi());
                 },
                 title: Text('Edit BMI'),
                 trailing: Icon(Icons.edit)),
@@ -44,7 +44,7 @@ class setting extends StatelessWidget {
           Card(
             child: ListTile(
                 onTap: () {
-                  Get.to(() => goals());
+                  Get.to(() => loading_goals());
                 },
                 title: Text('Edit yours goals'),
                 trailing: Icon(Icons.style)),

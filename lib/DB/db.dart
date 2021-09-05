@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fitness_pose/Structures/goal.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 import '../Structures/entry.dart';
@@ -57,16 +58,19 @@ abstract class DB {
       await _db!.insert(table, item.toMap());
   static Future<int> insertBmi(String table, Bmi_val item) async =>
       await _db!.insert(table, item.toMap());
+  static Future<int> insertGoal(String table, Goal_val item) async =>
+      await _db!.insert(table, item.toMap());
   static Future<int> insertMapstyle(String table, String style) async =>
       await _db!.insert(table, {'Mapjson': style});
   static Future deleteAll(String table) async =>
-      await _db!.rawDelete('DELETE FROM ${table}');
+      await _db!.rawDelete('DELETE FROM $table');
   static Future loadProgress(String date) async => await _db!.execute(
       '''UPDATE progress set jogging = (Select SUM (entries.distance) from entries where entries.date = '$date') where progress.date = '$date' ''');
   static Future innnitProgressDate(String Date) async =>
       await _db!.execute('''INSERT INTO progress(date) values ('$Date')''');
-  static Future<List<Map<String, dynamic>>> selectWeekRun() async =>
-      await _db!.query('progress', orderBy: 'date DESC', limit: 7);
+  static Future<List<Map<String, dynamic>>> selectWeek(
+          String table, String orderby) async =>
+      await _db!.query(table, orderBy: orderby, limit: 7);
   static Future Cttb() async => await _db!.execute('''
       CREATE TABLE progress(
       date STRING PRIMARY KEY NOT NULL,

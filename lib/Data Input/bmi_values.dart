@@ -5,16 +5,35 @@ import 'package:numberpicker/numberpicker.dart';
 import '../../DB/db.dart';
 import '../Structures/bmi.dart';
 
-class HeightInput extends StatefulWidget {
-  HeightInput({Key? key, int? meter, int? centi, int? kg}) : super(key: key);
+class BmiInput extends StatefulWidget {
+  late final int meter;
+  late final int centi;
+  late final int kg;
+  BmiInput(
+      {Key? key, required this.meter, required this.centi, required this.kg})
+      : super(key: key);
+
+  @override
+  _BmiInputState createState() => _BmiInputState();
+}
+
+class _BmiInputState extends State<BmiInput> {
   int meter = 1;
   int centi = 60;
   int kg = 60;
-  @override
-  _HeightInputState createState() => _HeightInputState();
-}
 
-class _HeightInputState extends State<HeightInput> {
+  innit() {
+    meter = widget.meter;
+    centi = widget.centi;
+    kg = widget.kg;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    innit();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +48,7 @@ class _HeightInputState extends State<HeightInput> {
                   NumberPicker(
                       axis: Axis.vertical,
                       textStyle: TextStyle(color: Colors.white),
-                      value: widget.meter,
+                      value: meter,
                       selectedTextStyle:
                           TextStyle(color: Colors.teal, fontSize: 30),
                       minValue: 0,
@@ -40,7 +59,7 @@ class _HeightInputState extends State<HeightInput> {
                       step: 1,
                       haptics: false,
                       onChanged: (value) {
-                        setState(() => widget.meter = value);
+                        setState(() => meter = value);
                         //Welcome.of(context)!.meter = value;
                       }
                       //setState(() => widget.meter = value),
@@ -56,7 +75,7 @@ class _HeightInputState extends State<HeightInput> {
                   NumberPicker(
                     axis: Axis.vertical,
                     textStyle: TextStyle(color: Colors.white),
-                    value: widget.centi,
+                    value: centi,
                     selectedTextStyle:
                         TextStyle(color: Colors.teal, fontSize: 30),
                     minValue: 0,
@@ -67,7 +86,7 @@ class _HeightInputState extends State<HeightInput> {
                     step: 1,
                     haptics: false,
                     onChanged: (value) {
-                      setState(() => widget.centi = value);
+                      setState(() => centi = value);
                     },
                   ),
                 ],
@@ -80,7 +99,7 @@ class _HeightInputState extends State<HeightInput> {
               NumberPicker(
                 axis: Axis.horizontal,
                 textStyle: TextStyle(color: Colors.white),
-                value: widget.kg,
+                value: kg,
                 selectedTextStyle: TextStyle(color: Colors.teal, fontSize: 30),
                 minValue: 10,
                 maxValue: 299,
@@ -89,7 +108,7 @@ class _HeightInputState extends State<HeightInput> {
                 ),
                 step: 1,
                 haptics: false,
-                onChanged: (value) => setState(() => widget.kg = value),
+                onChanged: (value) => setState(() => kg = value),
               ),
             ],
           ),
@@ -99,9 +118,9 @@ class _HeightInputState extends State<HeightInput> {
                     Bmi_val.table,
                     Bmi_val(
                         date: DateFormat.yMMMMd('en_US').format(DateTime.now()),
-                        meter: widget.meter,
-                        centi: widget.centi,
-                        kg: widget.kg));
+                        meter: meter,
+                        centi: centi,
+                        kg: kg));
                 List<Map<String, dynamic>> _results =
                     await DB.query(Bmi_val.table);
                 print('$_results');
