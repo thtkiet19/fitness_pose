@@ -1,5 +1,6 @@
 import 'package:fitness_pose/Pages/Setting/goals.dart';
-import 'package:fitness_pose/Pages/Setting/stat.dart';
+import 'package:fitness_pose/Pages/Setting/stat/load_stat.dart';
+import 'package:fitness_pose/Pages/Setting/stat/stat.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,7 +27,7 @@ class setting extends StatelessWidget {
           Card(
             child: ListTile(
                 onTap: () {
-                  Get.to(() => stat());
+                  Get.to(() => loading_stat());
                 },
                 title: Text('View Stat'),
                 trailing: Icon(Icons.stacked_line_chart)),

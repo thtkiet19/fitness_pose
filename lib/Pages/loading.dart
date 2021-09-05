@@ -55,15 +55,15 @@ class _loadingState extends State<loading> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 100), () => innitbmi());
+    Future.delayed(const Duration(milliseconds: 500), () => innitbmi());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-      child: SpinKitCubeGrid(
-        color: Colors.blue[300],
+      child: SpinKitDualRing(
+        color: Color.fromARGB(255, 13, 248, 192),
         size: 100.0,
       ),
     ));
