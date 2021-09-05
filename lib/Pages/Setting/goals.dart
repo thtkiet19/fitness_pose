@@ -10,6 +10,15 @@ class goals extends StatelessWidget {
         title: Text('Set your own goal'),
         backgroundColor: Colors.teal,
       ),
+      body: Container(
+        child: Column(
+          children: [
+            Row(
+              children: [Text('Enter your running')],
+            )
+          ],
+        ),
+      ),
     );
   }
 }

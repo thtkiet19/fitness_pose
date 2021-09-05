@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
-import '../Pages/Excercises/Running/entry.dart';
-import '../Data Input/bmi.dart';
+import '../Structures/entry.dart';
+import '../Structures/bmi.dart';
 
 abstract class DB {
   static Database? _db;
@@ -42,13 +42,13 @@ abstract class DB {
       jogging REAL,
       weigh REAL,
       hiit REAL);
-      CREATE TABLE progress(
+      CREATE TABLE goals(
       id INTEGER PRIMARY KEY NOT NULL,
       date STRING,
       jogging_goal REAL,
       weigh_goal REAL,
       hiit_goal REAL)
-    ''');
+          ''');
   }
 
   static Future<List<Map<String, dynamic>>> query(String table) async =>
@@ -61,11 +61,16 @@ abstract class DB {
       await _db!.insert(table, {'Mapjson': style});
   static Future deleteAll(String table) async =>
       await _db!.rawDelete('DELETE FROM ${table}');
+  static Future loadProgress(String date) async => await _db!.execute(
+      '''UPDATE progress set jogging = (Select SUM (entries.distance) from entries where entries.date = '$date') where progress.date = '$date' ''');
+  static Future innnitProgressDate(String Date) async =>
+      await _db!.execute('''INSERT INTO progress(date) values ('$Date')''');
+  static Future<List<Map<String, dynamic>>> selectWeekRun() async =>
+      await _db!.query('progress', orderBy: 'date DESC', limit: 7);
   static Future Cttb() async => await _db!.execute('''
       CREATE TABLE progress(
-      id INTEGER PRIMARY KEY NOT NULL,
-      date STRING,
-      jogging_goal REAL,
-      weigh_goal REAL,
-      hiit_goal REAL)''');
+      date STRING PRIMARY KEY NOT NULL,
+      jogging REAL,
+      weigh REAL,
+      hiit REAL)''');
 }

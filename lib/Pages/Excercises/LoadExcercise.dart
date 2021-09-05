@@ -22,7 +22,7 @@ class _LoadExcerciseState extends State<LoadExcercise> {
     data = data.isEmpty ? Get.arguments as Map : data;
     if (data['type'] == "Jogging") {
       Future.delayed(const Duration(milliseconds: 500),
-          () => Get.off(() => RunningHomePage()));
+          () => Get.offAll(() => RunningHomePage()));
     }
   }
 

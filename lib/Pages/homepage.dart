@@ -1,4 +1,5 @@
-import 'package:fitness_pose/Data%20Input/bmi.dart';
+import 'package:fitness_pose/Structures/bmi.dart';
+import 'package:fitness_pose/Structures/progress.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,20 +15,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late Bmi_val data;
+  late Progress_val pro;
 
   @override
   Widget build(BuildContext context) {
     print('got to homepage');
     //print(Get.arguments);
     data = Get.arguments['bmi'];
-    print('$data');
-    // data = data.isEmpty ? {'meter': 1, 'centi': 60, 'kg': 55} : data;
-
-    // data = {'meter': 1, 'centi': 60, 'kg': 55};
-    print('passed data');
-    /*double bmi = data['kg'] /
-        ((data['meter'] + data['centi'] / 100) *
-            (data['meter'] + data['centi'] / 100));*/
+    pro = Get.arguments['progress'];
+    print('${pro.jogging}');
     double bmi = data.kg /
         ((data.meter + data.centi / 100) * (data.meter + data.centi / 100));
     String date = data.date;
@@ -55,6 +51,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SuitableExcercises(
               bmi: bmi,
+              progress_val: pro,
             ),
             // Text('$bmi')
           ]),

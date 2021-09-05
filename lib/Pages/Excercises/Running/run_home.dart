@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:rive/rive.dart';
 import 'package:fitness_pose/DB/db.dart';
-import 'entry.dart';
+import '../../../Structures/entry.dart';
 import 'maps.dart';
 import 'entry_card.dart';
 
@@ -103,15 +103,28 @@ class _RunningHomePageState extends State<RunningHomePage> {
         reverse: false,
         children: _cards,
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.teal,
-        onPressed: () => Get.to(() => MapPage(), arguments: {
-          'MapJson': Mapjson,
-          'lat': _locationData.latitude,
-          'long': _locationData.longitude
-        })!
-            .then((value) => _addEntries(value)),
-        child: Icon(Icons.add),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          FloatingActionButton(
+            backgroundColor: Colors.teal,
+            onPressed: () {
+              Navigator.pop(context);
+              Get.offAllNamed('/loading');
+            },
+            child: Icon(Icons.arrow_back_ios),
+          ),
+          FloatingActionButton(
+            backgroundColor: Colors.teal,
+            onPressed: () => Get.to(() => MapPage(), arguments: {
+              'MapJson': Mapjson,
+              'lat': _locationData.latitude,
+              'long': _locationData.longitude
+            })!
+                .then((value) => _addEntries(value)),
+            child: Icon(Icons.add),
+          ),
+        ],
       ),
       drawer: Drawer(
         child: Padding(
@@ -126,7 +139,14 @@ class _RunningHomePageState extends State<RunningHomePage> {
                       },
                       title: Text('Delete all running history'),
                       trailing: Icon(Icons.delete_sharp))),
-
+              Card(
+                child: ListTile(
+                    onTap: () {
+                      DB.Cttb();
+                    },
+                    title: Text('Edit yours goals'),
+                    trailing: Icon(Icons.style)),
+              ),
             ],
           ),
         ),

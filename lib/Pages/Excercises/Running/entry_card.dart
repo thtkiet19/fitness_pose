@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'entry.dart';
+import '../../../Structures/entry.dart';
 
 class EntryCard extends StatelessWidget {
   final Entry entry;

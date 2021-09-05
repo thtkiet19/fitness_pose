@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'entry.dart';
+import '../../../Structures/entry.dart';
 import 'package:get/get.dart';
 
 class MapPage extends StatefulWidget {

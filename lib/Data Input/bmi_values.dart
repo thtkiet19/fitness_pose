@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
 import '../../DB/db.dart';
-import 'bmi.dart';
+import '../Structures/bmi.dart';
 
 class HeightInput extends StatefulWidget {
   HeightInput({Key? key, int? meter, int? centi, int? kg}) : super(key: key);
