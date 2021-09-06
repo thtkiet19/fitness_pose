@@ -45,13 +45,13 @@ class _SuitableExcercisesState extends State<SuitableExcercises> {
     print('${widget.bmi}');
     int jogging = 0;
     if (widget.progress_val!.jogging != null)
-      jogging = widget.progress_val!.jogging!.toInt();
+      jogging = widget.progress_val!.jogging!.ceil();
     int weigh = 0;
     if (widget.progress_val!.weigh != null)
-      weigh = widget.progress_val!.weigh!.toInt();
+      weigh = widget.progress_val!.weigh!.ceil();
     int hiit = 0;
     if (widget.progress_val!.hiit != null)
-      hiit = widget.progress_val!.hiit!.toInt();
+      hiit = widget.progress_val!.hiit!.ceil();
 
     List<int> progress = [jogging, weigh, hiit];
     List<int> goal_val = [

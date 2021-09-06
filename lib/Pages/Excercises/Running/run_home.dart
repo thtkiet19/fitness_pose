@@ -39,9 +39,9 @@ class _RunningHomePageState extends State<RunningHomePage> {
     }
     // _data.forEach((element) => _cards.add(EntryCard(entry: element)));
     List<Map<String, dynamic>> _map = await DB.query('system_pref');
-    dropdownvalue = _map[0]['mapJson'];
-    print(' DROPDOWN $_map');
-    print(dropdownvalue);
+
+    if (_map.isBlank == false) dropdownvalue = _map[0]['mapJson'];
+
     Mapjson = dropdownvalue;
     setState(() {});
   }

@@ -48,7 +48,16 @@ class _HomePageState extends State<HomePage> {
         child: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             BmiAnimation(bmi: bmi),
-            Text(date),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              'BMI value from $date',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
             SizedBox(
               height: 15,
             ),

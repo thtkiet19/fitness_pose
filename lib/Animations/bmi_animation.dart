@@ -2,6 +2,7 @@ import 'package:fitness_pose/Animations/arrow_indicator.dart';
 import 'package:fitness_pose/Animations/rive_animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class BmiAnimation extends StatefulWidget {
@@ -41,12 +42,26 @@ class _AnimatedImageState extends State<BmiAnimation> {
     return Column(
       children: [
         SizedBox(
-          width: 640,
-          height: 200,
+          width: MediaQuery.of(context).size.width / 1.5,
+          height: MediaQuery.of(context).size.height / 3.5,
           child: BodyAnimation(),
         ),
-        Text(widget._bmiCharactor[_bmiIndex]),
-        Text('Your BMI = ${(widget.bmi! * 2).floorToDouble() / 2}'),
+        Text(
+          widget._bmiCharactor[_bmiIndex],
+          style: TextStyle(
+              color: Color.fromRGBO(0, 0, 0, 1.0),
+              fontSize: 22,
+              fontWeight: FontWeight.w400),
+        ),
+        Text(
+          'BMI = ${(widget.bmi! * 2).floorToDouble() / 2}',
+          style: GoogleFonts.openSans(
+            color: Color.fromRGBO(0, 35, 26, 1.0),
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 2,
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: StepProgressIndicator(
