@@ -26,11 +26,6 @@ class _SuitableExcercisesState extends State<SuitableExcercises> {
 
   List<String> _individual = ['Jogging', 'Weight', 'HIIT'];
   List<String> _unit = ['meters', 'reps', 'reps'];
-  List<String> trailingAnimation = [
-    'https://ak.picdn.net/shutterstock/videos/1041284887/preview/stock-footage--d-rendering-a-running-shirtless-male-character-with-white-background.webm',
-    'https://ak.picdn.net/shutterstock/videos/1067267848/preview/stock-footage--d-animation-k-video-showing-bodybuilding-exercise-at-gym-muscular-man-doing-one-arm-dumbbell.webm',
-    'https://ak.picdn.net/shutterstock/videos/1065872560/preview/stock-footage-man-exercise-animation-d-model-on-white-background-in-blue-t-shirt-low-poly-style.webm'
-  ];
 
   double percent(int progress, int goal) {
     double ans = progress / goal;
@@ -71,8 +66,6 @@ class _SuitableExcercisesState extends State<SuitableExcercises> {
                 onTap: () {
                   Get.toNamed('/individual', arguments: {
                     'type': _excercises[index],
-                    'bmi': widget.bmi,
-                    'video': trailingAnimation[index]
                   });
                 },
                 title: Text(_individual[index]),

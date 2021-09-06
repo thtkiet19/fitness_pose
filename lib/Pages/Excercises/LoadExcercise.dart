@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
 import 'Running/run_home.dart';
 
 class LoadExcercise extends StatefulWidget {
@@ -14,7 +13,6 @@ class LoadExcercise extends StatefulWidget {
 class _LoadExcerciseState extends State<LoadExcercise> {
   Map data = {};
 
-  late VideoPlayerController _controller;
   @override
   void initState() {
     super.initState();
