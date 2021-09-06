@@ -135,6 +135,7 @@ class _RunningHomePageState extends State<RunningHomePage> {
                   child: ListTile(
                       onTap: () {
                         DB.deleteAll('entries');
+                        DB.deleteAll('progress');
                         Get.offAllNamed('\loading');
                       },
                       title: Text('Delete all running history'),
